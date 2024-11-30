@@ -61,6 +61,7 @@ modules:
       - cp -a templates "$FLATPAK_DEST/share/$FLATPAK_ID/"
       - install -Dm 644 -t "$FLATPAK_DEST/share/man/man8" repoview.8
       - gzip "$FLATPAK_DEST/share/man/man8/repoview.8"
+      - install -Dm 644 -t /app/share/metainfo "$FLATPAK_ID.metainfo.xml"
     ensure-writable:
       - /app/lib/python2.7/site-packages/easy-install.pth
     sources:
@@ -72,3 +73,5 @@ modules:
         path: repoview-0.6.6-no-yum-dep.patch
       - type: patch
         path: repoview-0.6.6-no-rpm-dep.patch
+      - type: file
+        path: io.github.sergiomb2.Repoview.metainfo.xml

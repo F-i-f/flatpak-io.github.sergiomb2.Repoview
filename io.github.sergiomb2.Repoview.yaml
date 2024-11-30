@@ -59,8 +59,7 @@ modules:
       - chmod +x "$FLATPAK_DEST/bin/repoview"
       - mkdir -p "$FLATPAK_DEST/share/$FLATPAK_ID"
       - cp -a templates "$FLATPAK_DEST/share/$FLATPAK_ID/"
-      - mkdir -p "$FLATPAK_DEST/share/man/man8"
-      - cp -a repoview.8 "$FLATPAK_DEST/share/man/man8/"
+      - install -Dm 644 -t "$FLATPAK_DEST/share/man/man8" repoview.8
       - gzip "$FLATPAK_DEST/share/man/man8/repoview.8"
     ensure-writable:
       - /app/lib/python2.7/site-packages/easy-install.pth

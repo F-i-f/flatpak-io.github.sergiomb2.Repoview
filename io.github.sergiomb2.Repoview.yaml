@@ -7,30 +7,11 @@ command: repoview
 finish-args:
   - --filesystem=host
 modules:
-  - name: python
-    buildsystem: autotools
-    sources:
-      - type: archive
-        url:  https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tar.xz
-        sha256: b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43
-        dest-filename: Python-2.7.18.tar.xz
-  - name: setuptools
-    buildsystem: simple
-    build-commands:
-      - /app/bin/python setup.py install
-    ensure-writable:
-      - /app/lib/python2.7/site-packages/easy-install.pth
-    sources:
-      - type: archive
-        url:  https://files.pythonhosted.org/packages/b2/40/4e00501c204b457f10fe410da0c97537214b2265247bc9a5bc6edd55b9e4/setuptools-44.1.1.zip
-        sha256: c67aa55db532a0dadc4d2e20ba9961cbd3ccc84d544e9029699822542b5a476b
-        dest-filename: setuptools-44.1.1.zip
+  - shared-modules/python2.7/python-2.7.json
   - name: kid
     buildsystem: simple
     build-commands:
       - /app/bin/python setup.py install
-    ensure-writable:
-      - /app/lib/python2.7/site-packages/easy-install.pth
     sources:
       - type: archive
         url:  https://files.pythonhosted.org/packages/85/59/5256812b4b90cf379be2947142aa384f0b2f739643933ffab66914c79332/kid-0.9.6.tar.gz
@@ -42,8 +23,6 @@ modules:
     buildsystem: simple
     build-commands:
       - /app/bin/python setup.py install
-    ensure-writable:
-      - /app/lib/python2.7/site-packages/easy-install.pth
     sources:
       - type: archive
         url: https://files.pythonhosted.org/packages/17/48/5292ade507dafe573360560ba53783395587dc42eb32b347feb2ac70fc6b/pyliblzma-0.5.3.tar.bz2
@@ -62,8 +41,6 @@ modules:
       - install -Dm 644 -t "$FLATPAK_DEST/share/man/man8" repoview.8
       - gzip "$FLATPAK_DEST/share/man/man8/repoview.8"
       - install -Dm 644 -t /app/share/metainfo "$FLATPAK_ID.metainfo.xml"
-    ensure-writable:
-      - /app/lib/python2.7/site-packages/easy-install.pth
     sources:
       - type: archive
         url:  https://github.com/sergiomb2/repoview/archive/refs/tags/v0.6.7.tar.gz

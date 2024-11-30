@@ -89,3 +89,54 @@ modules:
         path: repoview-0.6.6-no-rpm-dep.patch
       - type: file
         path: io.github.sergiomb2.Repoview.metainfo.xml
+
+cleanup:
+  - /bin/gendiff
+  - /bin/pip*
+  - /bin/kid*
+  - /bin/rpm
+  - /bin/rpm2archive
+  - /bin/rpm2cpio
+  - /bin/rpmbuild
+  - /bin/rpmdb
+  - /bin/rpmgraph
+  - /bin/rpmkeys
+  - /bin/rpmlua
+  - /bin/rpmquery
+  - /bin/rpmsign
+  - /bin/rpmsort
+  - /bin/rpmspec
+  - /bin/rpmverify
+  - /bin/smtpd.py
+  - /include
+  - /lib/cmake
+  - /lib/lua
+  - /lib/pkgconfig
+  - /lib/rpm/brp*
+  - /lib/rpm/check*
+  - /lib/rpm/elfdeps
+  - /lib/rpm/fileattrs
+  - /lib/rpm/find*
+  - /lib/rpm/fontconfig.prov
+  - /lib/rpm/lua
+  - /lib/rpm/macros*
+  - /lib/rpm/ocamldeps.sh
+  - /lib/rpm/pkgconfigdeps.sh
+  - /lib/rpm/platform
+  - /lib/rpm/rpm.*
+  - /lib/rpm/rpm2cpio.sh
+  - /lib/rpm/rpm_*
+  - /lib/rpm/rpmdb*
+  - /lib/rpm/rpmdeps
+  - /lib/rpm/rpmdump
+  - /lib/rpm/rpmpopt*
+  - /lib/rpm/rpmuncompress
+  - /lib/rpm/script.req
+  - /lib/rpm/sysusers.sh
+  - /lib/rpm/tgpg
+  - /lib/rpm-plugins
+  - /share/doc
+  - /share/lua
+  - /share/man/man1
+  - /share/man/man3
+  - /share/man/man8/rpm*

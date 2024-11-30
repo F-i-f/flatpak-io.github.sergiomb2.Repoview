@@ -56,86 +56,14 @@ modules:
   - name: rpmdevtools
     buildsystem: simple
     build-commands:
-      - sed -i
-            's|^\(import progressbar\)$|import sys\nsys.path.insert(1, "%{_datadir}/rpmdevtools")\n\1\nsys.path.pop(1)|'
-            rpmdev-spectool
       - autoreconf -i
       - ./configure --prefix=$FLATPAK_DEST
-      - make install -j $FLATPAK_BUILDER_N_JOBS
+      - install -Dm 755 -t "$FLATPAK_DEST/bin" rpmdev-vercmp
     sources:
       - type: archive
         url: https://pagure.io/rpmdevtools/archive/RPMDEVTOOLS_9_6/rpmdevtools-RPMDEVTOOLS_9_6.tar.gz
         sha256: 245f847e575beb0ff9196293157c4bff9126e0d22adcf950f325f37333f88209
         dest-filename: rpmdevtools-9.6.tar.gz
-      - type: file
-        path: progressbar.py
-    modules:
-      - name: setuptools
-        buildsystem: simple
-        build-commands:
-          - pip3 install --target=/app --no-deps .
-        sources:
-          - type: archive
-            url: https://files.pythonhosted.org/packages/43/54/292f26c208734e9a7f067aea4a7e282c080750c4546559b58e2e45413ca0/setuptools-75.6.0.tar.gz
-            sha256: 8199222558df7c86216af4f84c30e9b34a61d8ba19366cc914424cdbd28252f6
-            dest-filename: setuptools-75.6.0.tar.gz
-      - name: certifi
-        buildsystem: simple
-        build-commands:
-          - pip3 install --prefix=/app --no-deps .
-        sources:
-          - type: archive
-            url: https://files.pythonhosted.org/packages/b0/ee/9b19140fe824b367c04c5e1b369942dd754c4c5462d5674002f75c4dedc1/certifi-2024.8.30.tar.gz
-            sha256: bec941d2aa8195e248a60b31ff9f0558284cf01a52591ceda73ea9afffd69fd9
-            dest-filename: certifi-2024.8.30.tar.gz
-      - name: urllib3
-        buildsystem: simple
-        build-commands:
-          - pip3 install --prefix=/app --no-deps .
-        sources:
-          - type: archive
-            url: https://files.pythonhosted.org/packages/ed/63/22ba4ebfe7430b76388e7cd448d5478814d3032121827c12a2cc287e2260/urllib3-2.2.3.tar.gz
-            sha256: e7d814a81dad81e6caf2ec9fdedb284ecc9c73076b62654547cc64ccdcae26e9
-            dest-filename: urllib3-2.2.3.tar.gz
-        modules:
-          - name: hatchling
-            buildsystem: simple
-            build-commands:
-              - pip3 install --prefix=/app --no-deps .
-            sources:
-              - type: archive
-                url: https://files.pythonhosted.org/packages/e1/47/7ec270a9567262ae3cb32dd420d2b53bf7aee769aca1f240eae0426b5bbc/hatchling-1.26.3.tar.gz
-                sha256: b672a9c36a601a06c4e88a1abb1330639ee8e721e0535a37536e546a667efc7a
-                dest-filename: hatchling-1.26.3.tar.gz
-            modules:
-              - name: pluggy
-                buildsystem: simple
-                build-commands:
-                  - python3 setup.py install --prefix=$FLATPAK_DEST
-                sources:
-                  - type: archive
-                    url: https://files.pythonhosted.org/packages/96/2d/02d4312c973c6050a18b314a5ad0b3210edb65a906f868e31c111dede4a6/pluggy-1.5.0.tar.gz
-                    sha256: 2cffa88e94fdc978c4c574f15f9e59b7f4201d439195c3715ca9e2486f1d0cf1
-                    dest-filename: pluggy-1.5.0.tar.gz
-                modules:
-                  - name: setuptools-scm
-                    buildsystem: simple
-                    build-commands:
-                      - pip3 install --prefix=/app --no-deps .
-                    sources:
-                      - type: archive
-                        url: https://files.pythonhosted.org/packages/4f/a4/00a9ac1b555294710d4a68d2ce8dfdf39d72aa4d769a7395d05218d88a42/setuptools_scm-8.1.0.tar.gz
-                        sha256: 42dea1b65771cba93b7a515d65a65d8246e560768a66b9106a592c8e7f26c8a7
-                        dest-filename: setuptools_scm-8.1.0.tar.gz
-      - name: requests
-        buildsystem: simple
-        build-commands:
-          - python3 setup.py install --prefix=$FLATPAK_DEST
-        sources:
-          - type: archive
-            url: https://files.pythonhosted.org/packages/63/70/2bf7780ad2d390a8d301ad0b550f1581eadbd9a20f896afe06353c2a2913/requests-2.32.3.tar.gz
-            sha256: 55365417734eb18255590a9ff9eb97e9e1da868d4ccd6402399eaf68af20a760
-            dest-filename: requests-2.32.3.tar.gz
 
   - name: repoview
     buildsystem: simple

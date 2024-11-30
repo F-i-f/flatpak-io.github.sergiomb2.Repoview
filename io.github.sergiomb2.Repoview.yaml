@@ -1,0 +1,64 @@
+# -*- mode: yaml; indent-tabs-mode: nil -*-
+app-id: io.github.sergiomb2.Repoview
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+command: repoview
+finish-args:
+  - --filesystem=host
+modules:
+  - name: python
+    buildsystem: autotools
+    sources:
+      - type: archive
+        url:  https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tar.xz
+        sha256: b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43
+        dest-filename: Python-2.7.18.tar.xz
+  - name: setuptools
+    buildsystem: simple
+    build-commands:
+      - /app/bin/python setup.py install
+    ensure-writable:
+      - /app/lib/python2.7/site-packages/easy-install.pth
+    sources:
+      - type: archive
+        url:  https://files.pythonhosted.org/packages/b2/40/4e00501c204b457f10fe410da0c97537214b2265247bc9a5bc6edd55b9e4/setuptools-44.1.1.zip
+        sha256: c67aa55db532a0dadc4d2e20ba9961cbd3ccc84d544e9029699822542b5a476b
+        dest-filename: setuptools-44.1.1.zip
+  - name: kid
+    buildsystem: simple
+    build-commands:
+      - /app/bin/python setup.py install
+    ensure-writable:
+      - /app/lib/python2.7/site-packages/easy-install.pth
+    sources:
+      - type: archive
+        url:  https://files.pythonhosted.org/packages/85/59/5256812b4b90cf379be2947142aa384f0b2f739643933ffab66914c79332/kid-0.9.6.tar.gz
+        sha256: ed664d66b221021f1e31c60c2914d28439ddf4d38770ac8a3e9c230542847cdc
+        dest-filename: kid-0.9.6.tar.gz
+      - type: patch
+        path: python-kid-0.9.6-escape-gt.patch
+  - name: repoview
+    buildsystem: simple
+    build-commands:
+      - sed -e "s|^DEFAULT_TEMPLATEDIR =.*|DEFAULT_TEMPLATEDIR = '$FLATPAK_DEST/share/$FLATPAK_ID/templates/default'|g"
+            -e "s|^VERSION =.*|VERSION = '0.6.7'|g"
+            -e "1s,^.*/python[^[:space:]]*,#!/app/bin/python,"
+            repoview.py > "$FLATPAK_DEST/bin/repoview"
+      - chmod +x "$FLATPAK_DEST/bin/repoview"
+      - mkdir -p "$FLATPAK_DEST/share/$FLATPAK_ID"
+      - cp -a templates "$FLATPAK_DEST/share/$FLATPAK_ID/"
+      - mkdir -p "$FLATPAK_DEST/share/man/man8"
+      - cp -a repoview.8 "$FLATPAK_DEST/share/man/man8/"
+      - gzip "$FLATPAK_DEST/share/man/man8/repoview.8"
+    ensure-writable:
+      - /app/lib/python2.7/site-packages/easy-install.pth
+    sources:
+      - type: archive
+        url:  https://github.com/sergiomb2/repoview/archive/refs/tags/v0.6.7.tar.gz
+        sha256: 3c3665f1026ffe5674e3b373fc0ed1a6ab03b38324ef5804ae6f1b030f5f6acb
+        dest-filename: repoview-0.6.7.tar.gz
+      - type: patch
+        path: repoview-0.6.6-no-yum-dep.patch
+      - type: patch
+        path: repoview-0.6.6-no-rpm-dep.patch

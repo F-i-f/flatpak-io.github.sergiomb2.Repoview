@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>io.github.sergiomb2.Repoview</id>
+  <provides>
+    <binary>repoview</binary>
+  </provides>
+  <name>Repoview</name>
+  <developer_name>Sérgio Basto</developer_name>
+  <summary>Static HTML generator for yum repositories.</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+  <url type="homepage">https://github.com/sergiomb2/repoview</url>
+  <description>
+    <p>This is a small software written to parse yum repositories and
+    present them in a format that's easily browsable via http by
+    creating a set of static HTML pages.</p>
+  </description>
+  <releases>
+    <release version="0.6.7" date="2022-08-22"/>
+  </releases>
+  <content_rating type="oars-1.1">
+  </content_rating>
+  <update_contact>F-i-f on GitHub.</update_contact>
+</component>

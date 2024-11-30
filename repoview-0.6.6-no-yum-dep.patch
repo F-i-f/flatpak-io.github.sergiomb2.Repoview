@@ -1,0 +1,35 @@
+diff -ruN repoview-0.6.6.orig/repoview.py repoview-0.6.6/repoview.py
+--- repoview-0.6.6.orig/repoview.py	2019-10-27 19:12:59.354967576 -0700
++++ repoview-0.6.6/repoview.py	2019-10-27 19:15:17.875483855 -0700
+@@ -43,7 +43,30 @@
+ from optparse import OptionParser
+ from kid      import Template
+ 
+-from rpmUtils.miscutils import compareEVR
++# Lifted from yum-3.4.3-522.fc30.noarch
++import rpm
++
++def compareEVR((e1, v1, r1), (e2, v2, r2)):
++    # return 1: a is newer than b
++    # 0: a and b are the same version
++    # -1: b is newer than a
++    if e1 is None:
++        e1 = '0'
++    else:
++        e1 = str(e1)
++    v1 = str(v1)
++    r1 = str(r1)
++    if e2 is None:
++        e2 = '0'
++    else:
++        e2 = str(e2)
++    v2 = str(v2)
++    r2 = str(r2)
++    #print '%s, %s, %s vs %s, %s, %s' % (e1, v1, r1, e2, v2, r2)
++    rc = rpm.labelCompare((e1, v1, r1), (e2, v2, r2))
++    #print '%s, %s, %s vs %s, %s, %s = %s' % (e1, v1, r1, e2, v2, r2, rc)
++    return rc
++# End lifted section
+ 
+ try:
+     from xml.etree.cElementTree import fromstring, ElementTree, TreeBuilder

@@ -1,0 +1,36 @@
+--- repoview-0.6.6.orig/repoview.py.orig	2020-05-04 13:05:14.962064746 -0700
++++ repoview-0.6.6/repoview.py	2020-05-04 11:31:15.971305808 -0700
+@@ -44,7 +44,11 @@
+ from kid      import Template
+ 
+ # Lifted from yum-3.4.3-522.fc30.noarch
+-import rpm
++try:
++    import rpm
++except ImportError:
++    rpm = None
++    import subprocess
+ 
+ def compareEVR((e1, v1, r1), (e2, v2, r2)):
+     # return 1: a is newer than b
+@@ -63,7 +67,19 @@
+     v2 = str(v2)
+     r2 = str(r2)
+     #print '%s, %s, %s vs %s, %s, %s' % (e1, v1, r1, e2, v2, r2)
+-    rc = rpm.labelCompare((e1, v1, r1), (e2, v2, r2))
++    if rpm is not None:
++        rc = rpm.labelCompare((e1, v1, r1), (e2, v2, r2))
++    else:
++        with open("/dev/null", "wb") as devnull:
++            xitcode = subprocess.call(['rpmdev-vercmp', e1, v1, r1, e2, v2, r2], stdout=devnull)
++        if xitcode == 11:
++            rc = +1
++        elif xitcode == 0:
++            rc = 0
++        elif xitcode == 12:
++            rc = -1
++        else:
++            raise AssertionError('rpmdev-vercmp returned an unexpected exit code %d' % xitcode)
+     #print '%s, %s, %s vs %s, %s, %s = %s' % (e1, v1, r1, e2, v2, r2, rc)
+     return rc
+ # End lifted section

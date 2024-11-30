@@ -38,6 +38,17 @@ modules:
         dest-filename: kid-0.9.6.tar.gz
       - type: patch
         path: python-kid-0.9.6-escape-gt.patch
+  - name: pylzma
+    buildsystem: simple
+    build-commands:
+      - /app/bin/python setup.py install
+    ensure-writable:
+      - /app/lib/python2.7/site-packages/easy-install.pth
+    sources:
+      - type: archive
+        url: https://files.pythonhosted.org/packages/17/48/5292ade507dafe573360560ba53783395587dc42eb32b347feb2ac70fc6b/pyliblzma-0.5.3.tar.bz2
+        sha256: 08d762f36d5e59fb9bb0e22e000c300b21f97e35b713321ee504cfb442667957
+        dest-filename: pyliblzma-0.5.3.tar.bz2
   - name: repoview
     buildsystem: simple
     build-commands:

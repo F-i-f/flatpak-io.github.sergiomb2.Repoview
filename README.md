@@ -11,10 +11,10 @@ host filesystem access. Run `flatpak run io.github.sergiomb2.Repoview`
 instead of running `repoview`.
 
 The templates are installed under
-`/app/share/io.github.sergiomb2.Repoview/templates/` (as seen from
+`/app/share/repoview/templates/` (as seen from
 inside the Flatpak container).  For example one could switch between
 the four included templates with:
-- `flatpak run io.github.sergiomb2.Repoview -k /app/share/io.github.sergiomb2.Repoview/templates/default`
-- `flatpak run io.github.sergiomb2.Repoview -k /app/share/io.github.sergiomb2.Repoview/templates/fedora`
-- `flatpak run io.github.sergiomb2.Repoview -k /app/share/io.github.sergiomb2.Repoview/templates/kaos`
-- `flatpak run io.github.sergiomb2.Repoview -k /app/share/io.github.sergiomb2.Repoview/templates/kaos-international`
+- `flatpak run io.github.sergiomb2.Repoview -k /app/share/repoview/templates/default`
+- `flatpak run io.github.sergiomb2.Repoview -k /app/share/repoview/templates/fedora`
+- `flatpak run io.github.sergiomb2.Repoview -k /app/share/repoview/templates/kaos`
+- `flatpak run io.github.sergiomb2.Repoview -k /app/share/repoview/templates/kaos-international`

@@ -68,13 +68,13 @@ modules:
   - name: repoview
     buildsystem: simple
     build-commands:
-      - sed -e "s|^DEFAULT_TEMPLATEDIR =.*|DEFAULT_TEMPLATEDIR = '$FLATPAK_DEST/share/$FLATPAK_ID/templates/default'|g"
+      - sed -e "s|^DEFAULT_TEMPLATEDIR =.*|DEFAULT_TEMPLATEDIR = '$FLATPAK_DEST/share/repoview/templates/default'|g"
             -e "s|^VERSION =.*|VERSION = '0.6.7'|g"
             -e "1s,^.*/python[^[:space:]]*,#!/app/bin/python,"
             repoview.py > "$FLATPAK_DEST/bin/repoview"
       - chmod +x "$FLATPAK_DEST/bin/repoview"
-      - mkdir -p "$FLATPAK_DEST/share/$FLATPAK_ID"
-      - cp -a templates "$FLATPAK_DEST/share/$FLATPAK_ID/"
+      - mkdir -p "$FLATPAK_DEST/share/repoview"
+      - cp -a templates "$FLATPAK_DEST/share/repoview/"
       - install -Dm 644 -t "$FLATPAK_DEST/share/man/man8" repoview.8
       - gzip "$FLATPAK_DEST/share/man/man8/repoview.8"
       - install -Dm 644 -t /app/share/metainfo "$FLATPAK_ID.metainfo.xml"

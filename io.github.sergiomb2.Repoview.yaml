@@ -1,7 +1,7 @@
 # -*- mode: yaml; indent-tabs-mode: nil -*-
 app-id: io.github.sergiomb2.Repoview
 runtime: org.freedesktop.Platform
-runtime-version: '24.08'
+runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 command: repoview
 finish-args:

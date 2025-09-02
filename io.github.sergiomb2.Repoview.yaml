@@ -37,7 +37,7 @@ modules:
       - -DWITH_DBUS=OFF
       - -DWITH_SEQUOIA=OFF
     build-commands:
-      - sed -i -e 's!${Python3_SITEARCH}!/app/lib/python3.12/site-packages!' python/CMakeLists.txt
+      - sed -i -e 's!${Python3_SITEARCH}!/app/lib/python'"$(python3 -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"'/site-packages!' python/CMakeLists.txt
     sources:
       - type: archive
         url: https://ftp.osuosl.org/pub/rpm/releases/rpm-4.20.x/rpm-4.20.1.tar.bz2

@@ -1,0 +1,93 @@
+#!/usr/bin/python -tt
+# -*- coding: utf-8 -*-
+#
+# rpmdev-vercmp -- compare rpm versions
+#
+# Copyright (c) Seth Vidal, Ville Skyttä, Philippe Troin
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+import sys
+
+import rpm
+
+try:
+    input = raw_input
+except NameError:
+    pass
+
+
+def usage():
+    print("""
+rpmdev-vercmp-pipe reads two versions from stdin, one on each line and
+outputs a verdict on stdout: 0 if the EVR's are equal, 1 if EVR1 is
+newer, and -1 if EVR2 is newer.
+""")
+
+
+# from yum and rpmlint, with less internal assumptions, and returning
+# empty strings instead of None for missing bits
+def stringToEVR(verstring):
+    if verstring in (None, ''):
+        return ('', '', '')
+    i = verstring.find(':')
+    if i == -1:
+        epoch = ''
+    else:
+        epoch = verstring[:i]
+    i += 1
+    j = verstring.find('-', i)
+    if j == -1:
+        version = verstring[i:]
+        release = ''
+    else:
+        version = verstring[i:j]
+        release = verstring[j + 1:]
+    return (epoch, version, release)
+
+
+def main():
+    sys.stdin.reconfigure(line_buffering=True)
+    sys.stdout.reconfigure(line_buffering=True)
+
+    while True:
+        warned = False
+
+        values = []
+        for tag in 'e1', 'v1', 'r1', 'e2', 'v2', 'r2':
+            value = sys.stdin.readline().rstrip('\n')
+            if len(value) == 0:
+                return
+            values.append(value)
+
+            if '-' in value:
+                if tag.startswith('e'):
+                    tag = 'epoch' + tag[1:]
+                elif tag.startswith('v'):
+                    tag = 'version' + tag[1:]
+                elif tag.startswith('r'):
+                    tag = 'release' + tag[1:]
+                sys.stderr.write('WARNING: hyphen in %s: %s\n' % (tag, value))
+                warned = True
+
+        if warned:
+            sys.exit(1)
+
+        rc = rpm.labelCompare(tuple(values[:3]), tuple(values[3:]))
+
+        sys.stdout.write('%d\n' % rc)
+
+if __name__ == "__main__":
+    main()

@@ -53,17 +53,13 @@ modules:
             sha256: c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9
             dest-filename: popt-1.19.tar.gz
 
-  - name: rpmdevtools
+  - name: rpmdev-vercmp-pipe
     buildsystem: simple
     build-commands:
-      - autoreconf -i
-      - ./configure --prefix=$FLATPAK_DEST
-      - install -Dm 755 -t "$FLATPAK_DEST/bin" rpmdev-vercmp
+      - install -Dm 755 -t "$FLATPAK_DEST/bin" rpmdev-vercmp-pipe
     sources:
-      - type: archive
-        url: https://pagure.io/rpmdevtools/archive/RPMDEVTOOLS_9_6/rpmdevtools-RPMDEVTOOLS_9_6.tar.gz
-        sha256: 245f847e575beb0ff9196293157c4bff9126e0d22adcf950f325f37333f88209
-        dest-filename: rpmdevtools-9.6.tar.gz
+      - type: file
+        path: rpmdev-vercmp-pipe
 
   - name: repoview
     buildsystem: simple
@@ -84,9 +80,7 @@ modules:
         sha256: 3c3665f1026ffe5674e3b373fc0ed1a6ab03b38324ef5804ae6f1b030f5f6acb
         dest-filename: repoview-0.6.7.tar.gz
       - type: patch
-        path: repoview-0.6.6-no-yum-dep.patch
-      - type: patch
-        path: repoview-0.6.6-no-rpm-dep.patch
+        path: repoview-0.6.7-vercmp-pipe.patch
       - type: file
         path: io.github.sergiomb2.Repoview.metainfo.xml
 

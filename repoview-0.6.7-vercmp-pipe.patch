@@ -1,0 +1,43 @@
+--- repoview-0.6.7.orig/repoview.py	2022-08-22 16:37:27.000000000 -0700
++++ repoview-0.6.7/repoview.py	2025-11-22 22:06:07.018548303 -0800
+@@ -43,7 +43,39 @@
+ from optparse import OptionParser
+ from kid      import Template
+ 
+-from rpmUtils.miscutils import compareEVR
++import subprocess
++
++compareEVR_pipe= None
++
++def compareEVR_setup():
++    global compareEVR_pipe
++
++    if compareEVR_pipe is None:
++        compareEVR_pipe = subprocess.Popen('rpmdev-vercmp-pipe',
++                                           stdin = subprocess.PIPE,
++                                           stdout = subprocess.PIPE)
++
++def compareEVR((e1, v1, r1), (e2, v2, r2)):
++    # return 1: a is newer than b
++    # 0: a and b are the same version
++    # -1: b is newer than a
++    if e1 is None:
++        e1 = '0'
++    else:
++        e1 = str(e1)
++    v1 = str(v1)
++    r1 = str(r1)
++    if e2 is None:
++        e2 = '0'
++    else:
++        e2 = str(e2)
++    v2 = str(v2)
++    r2 = str(r2)
++    #print '%s, %s, %s vs %s, %s, %s' % (e1, v1, r1, e2, v2, r2)
++    compareEVR_setup()
++    compareEVR_pipe.stdin.write('%s\n%s\n%s\n%s\n%s\n%s\n' % (e1, v1, r1, e2, v2, r2))
++    rc = int(compareEVR_pipe.stdout.readline())
++    return rc
+ 
+ try:
+     from xml.etree.cElementTree import fromstring, ElementTree, TreeBuilder

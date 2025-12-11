@@ -7,7 +7,7 @@ command: repoview
 finish-args:
   - --filesystem=host
 modules:
-  - shared-modules/python2.7/python-2.7.json
+  - shared-modules-fif/shared-modules/python2.7/python-2.7.json
   - name: kid
     buildsystem: simple
     build-commands:

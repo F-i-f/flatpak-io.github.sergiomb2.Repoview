@@ -80,6 +80,7 @@ cleanup:
   - /bin/rpmspec
   - /bin/rpmverify
   - /bin/smtpd.py
+  - /build
   - /include
   - /lib/cmake
   - /lib/lua

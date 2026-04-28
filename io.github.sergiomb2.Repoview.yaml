@@ -11,7 +11,8 @@ modules:
   - name: kid
     buildsystem: simple
     build-commands:
-      - /app/bin/python setup.py install
+      - |
+        "$FLATPAK_DEST"/bin/python setup.py install
     sources:
       - type: archive
         url:  https://files.pythonhosted.org/packages/85/59/5256812b4b90cf379be2947142aa384f0b2f739643933ffab66914c79332/kid-0.9.6.tar.gz
@@ -22,7 +23,8 @@ modules:
   - name: pylzma
     buildsystem: simple
     build-commands:
-      - /app/bin/python setup.py install
+      - |
+        "$FLATPAK_DEST"/bin/python setup.py install
     sources:
       - type: archive
         url: https://files.pythonhosted.org/packages/17/48/5292ade507dafe573360560ba53783395587dc42eb32b347feb2ac70fc6b/pyliblzma-0.5.3.tar.bz2
@@ -44,14 +46,14 @@ modules:
     build-commands:
       - sed -e "s|^DEFAULT_TEMPLATEDIR =.*|DEFAULT_TEMPLATEDIR = '$FLATPAK_DEST/share/repoview/templates/default'|g"
             -e "s|^VERSION =.*|VERSION = '0.6.7'|g"
-            -e "1s,^.*/python[^[:space:]]*,#!/app/bin/python,"
+            -e "1s,^.*/python[^[:space:]]*,#!$FLATPAK_DEST/bin/python,"
             repoview.py > "$FLATPAK_DEST/bin/repoview"
       - chmod +x "$FLATPAK_DEST/bin/repoview"
       - mkdir -p "$FLATPAK_DEST/share/repoview"
       - cp -a templates "$FLATPAK_DEST/share/repoview/"
       - install -Dm 644 -t "$FLATPAK_DEST/share/man/man8" repoview.8
       - gzip "$FLATPAK_DEST/share/man/man8/repoview.8"
-      - install -Dm 644 -t /app/share/metainfo "$FLATPAK_ID.metainfo.xml"
+      - install -Dm 644 -t "$FLATPAK_DEST"/share/metainfo "$FLATPAK_ID.metainfo.xml"
     sources:
       - type: archive
         url:  https://github.com/sergiomb2/repoview/archive/refs/tags/v0.6.7.tar.gz
